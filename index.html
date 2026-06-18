@@ -16,15 +16,23 @@
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
 
     <div class="flex min-h-screen">
+
+
         <nav class="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-6 flex flex-col">
             <h1 class="text-2xl font-bold mb-10">AgentHub</h1>
             <ul class="space-y-4 flex-grow">
-                <li><button onclick="showSection('dashboard')"
-                        class="w-full text-left hover:text-blue-500">Dashboard</button></li>
-                <li><button onclick="showSection('usuarios')" class="w-full text-left hover:text-blue-500">Gestión de
-                        usuarios</button></li>
-                <li><button onclick="showSection('agentes')" class="w-full text-left hover:text-blue-500">Gestión de
-                        agentes</button></li>
+                <li><button id="btn-dashboard" onclick="showSection('dashboard', 'btn-dashboard')"
+                        class="w-full text-left hover:text-blue-500 font-bold">Dashboard</button></li>
+                <li><button id="btn-usuarios" onclick="showSection('usuarios', 'btn-usuarios')"
+                        class="w-full text-left hover:text-blue-500">Gestión de usuarios</button></li>
+                <li><button id="btn-agentes" onclick="showSection('agentes', 'btn-agentes')"
+                        class="w-full text-left hover:text-blue-500">Gestión de agentes</button></li>
+                <li><button id="btn-skills" onclick="showSection('skills', 'btn-skills')"
+                        class="w-full text-left hover:text-blue-500">Skills</button></li>
+                <li><button id="btn-contrataciones" onclick="showSection('contrataciones', 'btn-contrataciones')"
+                        class="w-full text-left hover:text-blue-500">Contrataciones</button></li>
+                <li><button id="btn-logs" onclick="showSection('logs', 'btn-logs')"
+                        class="w-full text-left hover:text-blue-500">Log de errores</button></li>
             </ul>
             <button id="theme-toggle" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">Toggle Modo Oscuro</button>
         </nav>
@@ -83,16 +91,167 @@
                 </div>
 
                 <div
-                    class="mt-8 p-8 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl flex items-center justify-center text-gray-500">
-                    Gráfico de Actividad Semanal
+                    class="mt-8 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h3 class="font-bold mb-6 text-gray-700 dark:text-gray-300">Actividad Semanal de Agentes</h3>
+
+                    <div
+                        class="flex items-end justify-between h-40 gap-4 px-4 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="w-full bg-blue-500 rounded-t" style="height: 60px;"></div>
+                            <span class="text-xs text-gray-400">Lun</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="w-full bg-blue-500 rounded-t" style="height: 90px;"></div>
+                            <span class="text-xs text-gray-400">Mar</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="w-full bg-blue-500 rounded-t" style="height: 40px;"></div>
+                            <span class="text-xs text-gray-400">Mié</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="w-full bg-blue-500 rounded-t" style="height: 120px;"></div>
+                            <span class="text-xs text-gray-400">Jue</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="w-full bg-blue-500 rounded-t" style="height: 80px;"></div>
+                            <span class="text-xs text-gray-400">Vie</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="w-full bg-blue-500 rounded-t" style="height: 30px;"></div>
+                            <span class="text-xs text-gray-400">Sáb</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="w-full bg-blue-500 rounded-t" style="height: 50px;"></div>
+                            <span class="text-xs text-gray-400">Dom</span>
+                        </div>
+                    </div>
                 </div>
             </section>
             <section id="usuarios" class="section hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Gestión de Usuarios</h2>
                     <button onclick="toggleModal('modal-añadir')"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
-                        + Añadir Usuario
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">+ Añadir
+                        Usuario</button>
+                </div>
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-x-visible">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <tr>
+                                <th class="px-6 py-4">Nombre</th>
+                                <th class="px-6 py-4">Email</th>
+                                <th class="px-6 py-4">Plan</th>
+                                <th class="px-6 py-4">Estado</th>
+                                <th class="px-6 py-4">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4">Juan Pérez</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">juan@ejemplo.com</td>
+                                <td class="px-6 py-4">Pro</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Activo</span>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalUsuario(this)"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            perfil</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4">María García</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">maria@ejemplo.com</td>
+                                <td class="px-6 py-4">Business</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Activo</span>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalUsuario(this)"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            perfil</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4">Alex Smith</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">alex@ejemplo.com</td>
+                                <td class="px-6 py-4">Free</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Inactivo</span>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalUsuario(this)"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            perfil</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4">Clam Judina</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">clam@ejemplo.com</td>
+                                <td class="px-6 py-4">Pro</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Activo</span>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalUsuario(this)"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            perfil</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4">Elena Rodríguez</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">elena@ejemplo.com</td>
+                                <td class="px-6 py-4">Business</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Activo</span>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalUsuario(this)"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            perfil</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section id="agentes" class="section hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Gestión de Agentes</h2>
+                    <button onclick="toggleModal('modal-añadir-agente')"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
+                        + Añadir Agente
                     </button>
                 </div>
 
@@ -102,48 +261,501 @@
                         <thead class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
                             <tr>
                                 <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Nombre</th>
-                                <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Email</th>
-                                <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Plan</th>
+                                <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Propietario</th>
                                 <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Estado</th>
+                                <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Skills</th>
                                 <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="user-table-body" class="divide-y divide-gray-200 dark:divide-gray-700">
-                            <tr>
-                                <td class="px-6 py-4">Juan Pérez</td>
-                                <td class="px-6 py-4 text-gray-500">juan@ejemplo.com</td>
-                                <td class="px-6 py-4">Pro</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">Activo</span>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">DeepMind NLP</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Equipo Alpha</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Activo</span>
+                                </td>
+                                <td class="px-6 py-4"><button onclick="toggleSkills(this)"
+                                        class="text-blue-600 text-sm hover:underline">Ver Skills ▾</button>
+                                    <ul class="hidden mt-2 text-xs text-gray-500 space-y-1">
+                                        <li>• NLP</li>
+                                        <li>• Traducción</li>
+                                    </ul>
                                 </td>
                                 <td class="px-6 py-4 relative">
                                     <button onclick="toggleDropdown(this)"
-                                        class="text-gray-500 hover:text-gray-700 dark:hover:text-white font-bold">⋮</button>
-
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
                                     <div
-                                        class="dropdown-menu hidden absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-10">
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
                                         <button
-                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-                                            onclick="alert('Ver detalle')">Ver detalle</button>
+                                            onclick="toggleModal('modal-configurar'); document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Configurar</button>
                                         <button
-                                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
-                                            onclick="alert('Eliminar')">Eliminar</button>
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Customer Support</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Equipo Soporte</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Activo</span>
+                                </td>
+                                <td class="px-6 py-4"><button onclick="toggleSkills(this)"
+                                        class="text-blue-600 text-sm hover:underline">Ver Skills ▾</button>
+                                    <ul class="hidden mt-2 text-xs text-gray-500 space-y-1">
+                                        <li>• CRM</li>
+                                        <li>• Email</li>
+                                    </ul>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            onclick="toggleModal('modal-configurar'); document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Configurar</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Financial Analyst</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Finanzas</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">En
+                                        espera</span></td>
+                                <td class="px-6 py-4"><button onclick="toggleSkills(this)"
+                                        class="text-blue-600 text-sm hover:underline">Ver Skills ▾</button>
+                                    <ul class="hidden mt-2 text-xs text-gray-500 space-y-1">
+                                        <li>• Excel</li>
+                                        <li>• C#</li>
+                                    </ul>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            onclick="toggleModal('modal-configurar'); document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Configurar</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Lead Qualifier</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Ventas</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Activo</span>
+                                </td>
+                                <td class="px-6 py-4"><button onclick="toggleSkills(this)"
+                                        class="text-blue-600 text-sm hover:underline">Ver Skills ▾</button>
+                                    <ul class="hidden mt-2 text-xs text-gray-500 space-y-1">
+                                        <li>• Lead scoring</li>
+                                    </ul>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            onclick="toggleModal('modal-configurar'); document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Configurar</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Scheduler AI</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Operations</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Offline</span>
+                                </td>
+                                <td class="px-6 py-4"><button onclick="toggleSkills(this)"
+                                        class="text-blue-600 text-sm hover:underline">Ver Skills ▾</button>
+                                    <ul class="hidden mt-2 text-xs text-gray-500 space-y-1">
+                                        <li>• Calendario</li>
+                                        <li>• Emails</li>
+                                    </ul>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            onclick="toggleModal('modal-configurar'); document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Configurar</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Content Creator</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Marketing</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Activo</span>
+                                </td>
+                                <td class="px-6 py-4"><button onclick="toggleSkills(this)"
+                                        class="text-blue-600 text-sm hover:underline">Ver Skills ▾</button>
+                                    <ul class="hidden mt-2 text-xs text-gray-500 space-y-1">
+                                        <li>• Copywriting</li>
+                                        <li>• SEO</li>
+                                    </ul>
+                                </td>
+                                <td class="px-6 py-4 relative"><button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            onclick="toggleModal('modal-configurar'); document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Configurar</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
-
             </section>
-            <section id="agentes" class="section hidden">
-                <h2 class="text-2xl font-bold">Gestión de Agentes</h2>
+            <section id="logs" class="section hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Log de Errores</h2>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <tr>
+                                <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Timestamp</th>
+                                <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Agente</th>
+                                <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Severidad</th>
+                                <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Descripción</th>
+                                <th class="px-6 py-4 font-semibold text-gray-700 dark:text-gray-300">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 text-sm text-gray-500">10:45 AM</td>
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">DeepMind NLP</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Crítico</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Error de conexión API
+                                    timeout</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Marcar
+                                            resuelto</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 text-sm text-gray-500">10:50 AM</td>
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">Customer Support</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Advertencia</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Latencia alta en DB</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Marcar
+                                            resuelto</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 text-sm text-gray-500">11:05 AM</td>
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">Scheduler AI</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Crítico</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Fallo autenticación OAuth
+                                </td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Marcar
+                                            resuelto</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 text-sm text-gray-500">11:15 AM</td>
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">Content Creator</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Advertencia</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Límite de tokens superado
+                                </td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Marcar
+                                            resuelto</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 text-sm text-gray-500">12:00 PM</td>
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">DeepMind NLP</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Crítico</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Error sintaxis en prompt
+                                </td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Marcar
+                                            resuelto</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 text-sm text-gray-500">12:30 PM</td>
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">Financial Analyst</td>
+                                <td class="px-6 py-4"><span
+                                        class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Advertencia</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Memoria caché
+                                    insuficiente</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600">⋮</button>
+
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Marcar
+                                            resuelto</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section id="skills" class="section hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Catálogo de Skills</h2>
+                    <div
+                        class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800 max-w-lg">
+                        <p class="text-sm text-blue-800 dark:text-blue-300">
+                            <strong>¿Qué es una Skill?</strong> Es una capacidad especializada que se le otorga a un
+                            agente (ej. navegación web, cálculo financiero, lectura de PDFs) para permitirle ejecutar
+                            tareas complejas.
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <tr>
+                                <th class="px-6 py-3 font-semibold">Nombre de la Skill</th>
+                                <th class="px-6 py-3 font-semibold">Descripción</th>
+                                <th class="px-6 py-3 font-semibold">Agentes usando</th>
+                                <th class="px-6 py-3 font-semibold">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Navegación Web</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Capacidad para buscar y extraer
+                                    datos de internet.</td>
+                                <td class="px-6 py-4 text-center">12</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-32 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalSkill(this)"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Analista PDF</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Lectura y síntesis de documentos
+                                    técnicos.</td>
+                                <td class="px-6 py-4 text-center">8</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-32 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalSkill(this)"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Calculadora Financiera</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Procesamiento de datos numéricos
+                                    y contables.</td>
+                                <td class="px-6 py-4 text-center">5</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-32 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalSkill(this)"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Traducción Real-Time</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Soporte multilingüe en tiempo
+                                    real.</td>
+                                <td class="px-6 py-4 text-center">15</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-32 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalSkill(this)"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Ver
+                                            detalle</button>
+                                        <button
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section id="contrataciones" class="section hidden">
+                <h2 class="text-2xl font-bold mb-6">Contrataciones de Agentes</h2>
+
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <tr>
+                                <th class="px-6 py-3 font-semibold">Cliente</th>
+                                <th class="px-6 py-3 font-semibold">Agente</th>
+                                <th class="px-6 py-3 font-semibold">Periodo</th>
+                                <th class="px-6 py-3 font-semibold">Total</th>
+                                <th class="px-6 py-3 font-semibold">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">TechCorp S.A.</td>
+                                <td class="px-6 py-4">DeepMind NLP</td>
+                                <td class="px-6 py-4 text-gray-500">10/05/26 - 10/06/26</td>
+                                <td class="px-6 py-4 font-bold">$1,200</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-32 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalDetalle(this)" data-cliente="TechCorp S.A."
+                                            data-proyecto="DeepMind NLP" data-monto="$1,200"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            detalle</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Finanzas Globales</td>
+                                <td class="px-6 py-4">Financial Analyst</td>
+                                <td class="px-6 py-4 text-gray-500">01/06/26 - 01/07/26</td>
+                                <td class="px-6 py-4 font-bold">$2,500</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-32 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalDetalle(this)" data-cliente="Finanzas Globales"
+                                            data-proyecto="Financial Analyst" data-monto="$2,500"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            detalle</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <td class="px-6 py-4 font-medium">Retail Solutions</td>
+                                <td class="px-6 py-4">Customer Support</td>
+                                <td class="px-6 py-4 text-gray-500">15/05/26 - 15/06/26</td>
+                                <td class="px-6 py-4 font-bold">$950</td>
+                                <td class="px-6 py-4 relative">
+                                    <button onclick="toggleDropdown(this)"
+                                        class="text-gray-500 font-bold hover:text-blue-600 transition">⋮</button>
+                                    <div
+                                        class="dropdown-menu hidden absolute right-0 top-full mt-1 w-32 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-xl z-50">
+                                        <button onclick="abrirModalDetalle(this)" data-cliente="Retail Solutions"
+                                            data-proyecto="Customer Support" data-monto="$950"
+                                            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Ver
+                                            detalle</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </main>
     </div>
-
+    <!-- modales -->
     <div id="modal-añadir" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg w-96">
             <h3 class="text-xl font-bold mb-4">Añadir Nuevo Usuario</h3>
@@ -156,56 +768,196 @@
         </div>
     </div>
 
+    <div id="modal-configurar"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg w-[450px]">
+            <h3 class="text-xl font-bold mb-4">Configurar Agente</h3>
+
+            <label class="block text-sm font-medium mb-2">System Prompt</label>
+            <textarea class="w-full h-32 p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600 mb-4"
+                placeholder="Define el comportamiento del agente aquí...">Eres un asistente experto en análisis de datos...</textarea>
+
+            <div class="flex justify-end gap-2">
+                <button onclick="toggleModal('modal-configurar')"
+                    class="px-4 py-2 bg-gray-300 dark:bg-gray-600 rounded-lg">Cancelar</button>
+                <button onclick="saveConfiguration()" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Guardar
+                    Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-añadir-agente"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg w-96">
+            <h3 class="text-xl font-bold mb-4">Añadir Nuevo Agente</h3>
+            <input type="text" id="nombre-agente" placeholder="Nombre del Agente"
+                class="w-full mb-3 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+            <input type="text" id="propietario-agente" placeholder="Propietario"
+                class="w-full mb-4 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+
+            <div class="flex justify-end gap-2">
+                <button onclick="toggleModal('modal-añadir-agente')"
+                    class="px-4 py-2 bg-gray-300 dark:bg-gray-600 rounded-lg">Cancelar</button>
+                <button onclick="guardarAgente()" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Guardar
+                    Agente</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-detalle-contrato" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-96">
+
+            <h2 id="modal-cliente" class="text-xl font-bold dark:text-white">Cliente</h2>
+
+            <p id="modal-proyecto" class="text-gray-600 dark:text-gray-400">Proyecto</p>
+
+            <p id="modal-monto" class="text-blue-600 font-bold mt-2">Monto</p>
+
+            <button onclick="toggleModal('modal-detalle-contrato')"
+                class="mt-4 w-full bg-gray-200 dark:bg-gray-700 dark:text-white py-2 rounded">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <div id="modal-detalle-usuario" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-96">
+            <h2 id="user-modal-nombre" class="text-xl font-bold dark:text-white">Nombre</h2>
+            <p id="user-modal-email" class="text-gray-600 dark:text-gray-400">Email</p>
+            <p id="user-modal-plan" class="text-blue-600 font-bold mt-2">Plan</p>
+            <button onclick="toggleModal('modal-detalle-usuario')"
+                class="mt-4 w-full bg-gray-200 dark:bg-gray-700 py-2 rounded dark:text-white">Cerrar</button>
+        </div>
+    </div>
+
+
+    <div id="modal-detalle-skill" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-96">
+            <h2 id="skill-modal-nombre" class="text-xl font-bold dark:text-white">Nombre Skill</h2>
+            <p id="skill-modal-desc" class="text-gray-600 dark:text-gray-400 mt-2">Descripción...</p>
+            <p class="text-blue-600 font-bold mt-4">Agentes que la utilizan: <span id="skill-modal-agentes">0</span></p>
+            <button onclick="toggleModal('modal-detalle-skill')"
+                class="mt-6 w-full bg-gray-200 dark:bg-gray-700 py-2 rounded dark:text-white">Cerrar</button>
+        </div>
+    </div>
 
     <script>
-        // Lógica de navegación
-        function showSection(id) {
+        tailwind.config = { darkMode: 'class' };
+
+        // 1. Navegación
+        function showSection(sectionId, btnId) {
             document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-            document.getElementById(id).classList.remove('hidden');
-        }
-
-        // Lógica Modo Oscuro
-        const toggleBtn = document.getElementById('theme-toggle');
-        const html = document.documentElement;
-
-        // Cargar preferencia guardada
-        if (localStorage.theme === 'dark') html.classList.add('dark');
-
-        toggleBtn.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
-        });
-
-        // Función para togglear el dropdown
-        function toggleDropdown(button) {
-            // Cierra todos los otros dropdowns abiertos
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                if (menu !== button.nextElementSibling) menu.classList.add('hidden');
+            document.getElementById(sectionId).classList.remove('hidden');
+            document.querySelectorAll('ul button').forEach(btn => {
+                btn.classList.remove('text-blue-600', 'font-bold');
+                btn.classList.add('hover:text-blue-500');
             });
-
-            // Togglea el actual
-            button.nextElementSibling.classList.toggle('hidden');
+            const activeBtn = document.getElementById(btnId);
+            if (activeBtn) {
+                activeBtn.classList.add('text-blue-600', 'font-bold');
+                activeBtn.classList.remove('hover:text-blue-500');
+            }
         }
 
-        // Cierra dropdowns al hacer clic fuera
-        window.addEventListener('click', (e) => {
-            if (!e.target.matches('button') && !e.target.closest('.dropdown-menu')) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
-            }
-        });
+        // 2. Dropdown (Menús ⋮) - Lógica única y robusta
+        function toggleDropdown(button) {
+            const menu = button.nextElementSibling; // El div está justo después del botón
+            document.querySelectorAll('.dropdown-menu').forEach(m => {
+                if (m !== menu) m.classList.add('hidden');
+            });
+            menu.classList.toggle('hidden');
+        }
 
-        // Función genérica para abrir/cerrar cualquier modal
+        // 3. Modales
         function toggleModal(id) {
             const modal = document.getElementById(id);
-            modal.classList.toggle('hidden');
+            if (modal) modal.classList.toggle('hidden');
         }
 
-        // Opcional: Cerrar modal haciendo clic en el fondo (backdrop)
-        document.getElementById('modal-añadir').addEventListener('click', (e) => {
-            if (e.target.id === 'modal-añadir') {
-                toggleModal('modal-añadir');
+        // 4. Cerrar al hacer clic fuera
+        window.addEventListener('click', (e) => {
+            if (!e.target.matches('button') || e.target.textContent.trim() !== '⋮') {
+                document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
             }
         });
+
+        // 5. abrirModalDetalle 
+        function abrirModalDetalle(button) {
+            // 1. Obtener los datos del botón
+            const cliente = button.getAttribute('data-cliente');
+            const proyecto = button.getAttribute('data-proyecto');
+            const monto = button.getAttribute('data-monto');
+
+            // 2. Inyectar los datos en el modal
+            document.getElementById('modal-cliente').innerText = cliente;
+            document.getElementById('modal-proyecto').innerText = proyecto;
+            document.getElementById('modal-monto').innerText = monto;
+
+            // 3. Mostrar el modal
+            toggleModal('modal-detalle-contrato');
+        }
+        // 6. Otras funciones
+        const toggleBtn = document.getElementById('theme-toggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            });
+        }
+
+        function abrirModalUsuario(button) {
+            // Obtenemos la fila (tr) donde está el botón
+            const row = button.closest('tr');
+
+            // Extraemos los datos de las celdas de esa fila
+            const nombre = row.cells[0].innerText;
+            const email = row.cells[1].innerText;
+            const plan = row.cells[2].innerText;
+
+            // Inyectamos en el nuevo modal
+            document.getElementById('user-modal-nombre').innerText = nombre;
+            document.getElementById('user-modal-email').innerText = email;
+            document.getElementById('user-modal-plan').innerText = plan;
+
+            // Abrimos el modal
+            toggleModal('modal-detalle-usuario');
+
+            // Cerramos el menú dropdown que quedó abierto
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+        }
+
+        function abrirModalSkill(button) {
+            // 1. Obtenemos la fila (tr) donde está el botón
+            const row = button.closest('tr');
+
+            // 2. Extraemos los datos de las celdas
+            const nombre = row.cells[0].innerText;
+            const descripcion = row.cells[1].innerText;
+            const agentesCount = row.cells[2].innerText;
+
+            // 3. Inyectamos en el modal
+            document.getElementById('skill-modal-nombre').innerText = nombre;
+            document.getElementById('skill-modal-desc').innerText = descripcion;
+            document.getElementById('skill-modal-agentes').innerText = agentesCount;
+
+            // 4. Abrimos el modal y cerramos el menú
+            toggleModal('modal-detalle-skill');
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+        }
+        function toggleSkills(button) {
+            // 1. Encuentra la lista que sigue inmediatamente al botón
+            const list = button.nextElementSibling;
+
+            if (list) {
+                // 2. Alterna la clase 'hidden' para mostrar/ocultar
+                list.classList.toggle('hidden');
+
+                // 3. Opcional: Cambia el texto del botón
+                button.textContent = list.classList.contains('hidden')
+                    ? 'Ver Skills ▾'
+                    : 'Ocultar Skills ▴';
+            }
+        }
     </script>
 
 
